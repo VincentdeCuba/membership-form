@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vincent De Cuba — Membership Application</title>
+<style>
+  :root{
+    --bg:#f6f0db;           /* soft cream */
+    --text:#2b2f24;
+    --muted:#7b7f6a;
+    --border:#d9d4c4;
+    --accent:#5f664f;       /* olive button */
+    --shadow:0 10px 28px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+  .panel{width:min(880px,92vw)}
+  .qwrap{max-width:780px;margin:0 auto}
+  .step{display:none}
+  .step.active{display:block}
+  .center{min-height:48vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+  /* Stacked ask block: label above control, left-aligned */
+  .ask{width:100%;display:flex;flex-direction:column;gap:8px;align-items:stretch}
+  .label{font-size:15px;font-weight:500;color:#3f4639;line-height:1.3;text-align:left}
+  .input{position:relative;background:#fff;border:1px solid var(--border);border-radius:10px;
+    min-height:54px;display:flex;align-items:center;padding:0 14px;box-shadow:var(--shadow);width:100%}
+  .input input,.input select,.input textarea{flex:1;border:0;outline:0;background:transparent;height:54px;font-size:16px}
+  .input textarea{height:auto;min-height:140px;padding:12px 0;resize:vertical}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+  @media (max-width:760px){.row2{grid-template-columns:1fr}}
+  .chips{display:flex;flex-direction:column;gap:10px}
+  .chip{border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:#fff;cursor:pointer;
+    display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+  .chip input{appearance:none;width:18px;height:18px;border:2px solid #9aa096;border-radius:6px}
+  .chip input[type=radio]{border-radius:50%}
+  .chip input:checked{border-color:var(--accent);box-shadow:inset 0 0 0 6px var(--accent)}
+  /* Controls + progress under field */
+  .controls{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin-top:8px}
+  .back{background:transparent;border:0;color:var(--accent);cursor:pointer;padding:10px 6px;border-radius:8px}
+  .btn{border:0;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;padding:10px 18px;cursor:pointer;box-shadow:var(--shadow)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .progress{display:flex;align-items:center;gap:10px;flex:1;max-width:360px;margin:0 8px}
+  .bar-outer{flex:1;height:8px;background:#e8e2d0;border-radius:999px;overflow:hidden;box-shadow:inset 0 1px 1px rgba(0,0,0,.05)}
+  .bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+  .pct{min-width:34px;text-align:right;color:#494e3d;font-weight:600;font-size:12px}
+  .error{color:#b42318;background:#fdecec;border:1px solid #f7c2b9;padding:10px 12px;border-radius:10px;margin-top:8px;display:none;width:100%}
+</style>
+</head>
+<body>
+  <form id="form" class="wrap" action="https://docs.google.com/forms/d/e/1FAIpQLSfeMSSXCd_g_WrlMjaIuliScKU47reEgDlzv2vXbcxoLcN7bQ/formResponse" method="POST" novalidate>
+    <div class="panel">
+      <div class="qwrap">
+
+        <!-- 1 Name -->
+        <div class="step active">
+          <div class="center">
+            <div class="ask">
+              <div class="label">Your name *</div>
+              <div class="row2">
+                <div class="input"><input id="first" name="entry.2005620554" required></div>
+                <div class="input"><input id="last"  name="entry.57669867"    required></div>
+              </div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button" id="backBtn">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar" id="bar"></div></div><div class="pct" id="pct">0%</div></div>
+              <button class="btn" type="button" id="nextBtn">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Email -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="email">Email *</label>
+              <div class="input"><input id="email" type="email" name="entry.1045781291" required></div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Phone -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="phone">Phone number *</label>
+              <div class="input"><input id="phone" type="tel" name="entry.1166974658" required></div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Address split -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="addr1">Address *</label>
+              <div class="input" style="margin-bottom:12px;"><input id="addr1" required></div>
+              <div class="row2">
+                <div class="input"><input id="city" required></div>
+                <div class="input"><input id="postcode" required></div>
+              </div>
+              <input type="hidden" id="addressFull" name="entry.1065046570">
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 DOB -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="dob">Birthday *</label>
+              <div class="input"><input id="dob" type="date" name="entry.1031094278" required></div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Company/Position -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <div class="label">Professional details *</div>
+              <div class="row2">
+                <div class="input"><input id="company" name="entry.316165000" required></div>
+                <div class="input"><input id="position" name="entry.533582558" required></div>
+              </div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 Facilities -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <div class="label">Facilities of interest *</div>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="The Vincent Hub">The Vincent Hub</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="Private Suites">Private Suites</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="Events &amp; Tastings">Events &amp; Tastings</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="The Vincent de Cuba Lounge">The Vincent de Cuba Lounge</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="Rare Wines &amp; Spirits">Rare Wines &amp; Spirits</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="Live Jazz">Live Jazz</label>
+                <label class="chip"><input type="checkbox" name="entry.1658106050" value="Community &amp; Connections">Community &amp; Connections</label>
+              </div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 Membership -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="membership">Membership Type *</label>
+              <div class="input">
+                <select id="membership" required>
+                  <option value="" disabled selected></option>
+                  <option value="full">Full Membership (£5,000)</option>
+                  <option value="ind">Individual Membership (£1,500)</option>
+                  <option value="joint">Joint Membership (£2,250)</option>
+                </select>
+              </div>
+              <input id="m-full" type="text" name="entry.1511330539" value="Full Membership (£5,000)" hidden disabled />
+              <input id="m-ind"  type="text" name="entry.1417955951" value="Individual Membership (£1,500)" hidden disabled />
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9 Joint question -->
+        <div class="step" data-cond="joint">
+          <div class="center">
+            <div class="ask">
+              <div class="label">Do all applicants share the same address?</div>
+              <div class="chips">
+                <label class="chip"><input type="radio" name="joint_same_address" value="Yes">Yes</label>
+                <label class="chip"><input type="radio" name="joint_same_address" value="No">No</label>
+              </div>
+            </div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10-13 Joint details -->
+        <div class="step" data-cond="joint">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="jfirst">Joint member — first name *</label>
+              <div class="input"><input id="jfirst" name="joint_first_name"></div>
+            </div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="step" data-cond="joint">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="jlast">Joint member — last name *</label>
+              <div class="input"><input id="jlast" name="joint_last_name"></div>
+            </div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="step" data-cond="joint">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="jemail">Joint member — email *</label>
+              <div class="input"><input id="jemail" type="email" name="joint_email"></div>
+            </div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="step" data-cond="joint">
+          <div class="center">
+            <div class="ask">
+              <label class="label" for="jphone">Joint member — phone *</label>
+              <div class="input"><input id="jphone" type="tel" name="joint_phone"></div>
+            </div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 14 Motivation -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <div class="label">What interests you about becoming a member? *</div>
+              <div class="input"><textarea id="motivation" name="motivation" required></textarea></div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 15 Preferences -->
+        <div class="step">
+          <div class="center">
+            <div class="ask">
+              <div class="label">Interests & preferences *</div>
+              <div class="input"><textarea id="prefs" name="preferences" required></textarea></div>
+            </div>
+            <div class="error"></div>
+            <div class="controls">
+              <button class="back" type="button">← Back</button>
+              <div class="progress"><div class="bar-outer"><div class="bar"></div></div><div class="pct"></div></div>
+              <button class="btn" type="button">Submit</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Hidden Google fields -->
+    <input type="hidden" name="fvv" value="1" />
+    <input type="hidden" name="fbzx" value="" />
+    <input type="hidden" name="pageHistory" value="0" />
+    <input type="hidden" id="addressFullMirror" name="entry.1065046570"> <!-- safety mirror -->
+  </form>
+
+<script>
+  // Multi-step controller
+  const steps = Array.from(document.querySelectorAll('.step'));
+  const form = document.getElementById('form');
+  const membership = document.getElementById('membership');
+  const mFull = document.getElementById('m-full');
+  const mInd  = document.getElementById('m-ind');
+
+  const addr1 = document.getElementById('addr1');
+  const city = document.getElementById('city');
+  const postcode = document.getElementById('postcode');
+  const addressFull = document.getElementById('addressFull');
+  const addressFullMirror = document.getElementById('addressFullMirror');
+
+  let idx = 0;
+
+  function visible(){
+    const isJoint = membership && membership.value === 'joint';
+    return steps.filter(s => !s.dataset.cond || s.dataset.cond === 'joint' && isJoint);
+  }
+
+  function paint(){
+    steps.forEach(s => s.classList.remove('active'));
+    const v = visible();
+    v[idx].classList.add('active');
+    const perc = Math.round(((idx+1)/v.length)*100);
+    v[idx].querySelectorAll('.bar').forEach(el => el.style.width = perc + '%');
+    v[idx].querySelectorAll('.pct').forEach(el => el.textContent = perc + '%');
+    const back = v[idx].querySelector('.back');
+    const next = v[idx].querySelector('.btn');
+    if (back){ back.disabled = (idx===0); back.onclick = () => { if (idx>0){ idx--; paint(); } }; }
+    if (next){ next.onclick = forward; }
+  }
+
+  function concatAddress(){
+    const v = [addr1?.value, city?.value, postcode?.value].filter(Boolean).join(', ');
+    if (addressFull) addressFull.value = v;
+    if (addressFullMirror) addressFullMirror.value = v;
+  }
+
+  function validateCurrent(){
+    const v = visible();
+    const step = v[idx];
+    let msg = '';
+    const req = step.querySelectorAll('[required]');
+    for (const x of req){
+      if (x.type === 'checkbox'){
+        const name = x.name;
+        if (step.querySelectorAll('input[name="'+name+'"]:checked').length === 0){
+          msg = 'Please select at least one option.'; break;
+        }
+      } else if (!x.value){ msg = 'Please complete this field.'; break; }
+      if (x.id === 'dob' && x.value){
+        const dob = new Date(x.value);
+        const age = (Date.now() - dob.getTime()) / (365.25*24*3600*1000);
+        if (age < 21){ msg = 'You must be 21 or over to apply.'; break; }
+      }
+    }
+    if (step.contains(membership)){
+      if (!membership.value) msg = 'Please select a membership type.';
+      mFull.disabled = !(membership.value === 'full');
+      mInd.disabled  = !(membership.value === 'ind');
+    }
+    if (step.contains(addr1) || step.contains(city) || step.contains(postcode)){
+      concatAddress();
+    }
+    const err = step.querySelector('.error');
+    if (err){ err.style.display = msg ? 'block' : 'none'; err.textContent = msg; }
+    return !msg;
+  }
+
+  function forward(){
+    const v = visible();
+    if (!validateCurrent()) return;
+    if (idx === v.length-1){
+      concatAddress();
+      form.submit();
+      return;
+    }
+    idx++; paint();
+  }
+
+  membership?.addEventListener('change', () => { idx = Math.min(idx, visible().length-1); paint(); });
+
+  paint();
+</script>
+</body>
+</html>
